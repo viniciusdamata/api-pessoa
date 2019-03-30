@@ -15,12 +15,13 @@ db.on("error", (err) => {
     console.log(err);
 })
 
-function homepage(req, res) {
+function homepage(req, res, next) {
     res.writeHead(200, "text/plain")
     res.end("Esta é a pagina inicial");
+    next();
 }
 
-function savePerson(req, res) {
+function savePerson(req, res, next) {
     let person = new personModel({
         nome: req.body.nome,
         email: req.body.email,
@@ -31,28 +32,31 @@ function savePerson(req, res) {
         console.log("Salvo no BD");
     })
     res.redirect("/");
+    next();
 }
 
-function findOne(req, res) {
+function findOne(req, res, next) {
     personModel.find({
         _id: req.params.id
     }, (err, people) => {
         if (err) return console.log(err);
         res.json(people);
-    })
+        next();
 
+    })
 }
 
 
-function allUsers(req, res) {
+function allUsers(req, res, next) {
     personModel.find({}, (err, people) => {
         if (err) return console.log(err);
         res.json(people);
+        next();
     })
-
+    
 }
 
-function updateOne(req, res) {
+function updateOne(req, res, next) {
     // let person = new personModel({
     //     nome: req.body.nome,
     //     email: req.body.email,
@@ -65,6 +69,7 @@ function updateOne(req, res) {
     }, (err, people)=>{
         if(err) return console.log(err);
     })
+    next();
 }
 
 
