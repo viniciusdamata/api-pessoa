@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const URI = "mongodb+srv://usuario:vinicius123@cluster0-4ixoe.mongodb.net/test?retryWrites=true"
+const URI;
 const userModel = require("../models/user.model.js");
 mongoose.connect(URI, {
     autoReconnect: true,
