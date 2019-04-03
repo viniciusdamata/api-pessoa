@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const URI;
+const URI = "mongodb+srv://usuario:vinicius123@cluster0-4ixoe.mongodb.net/test?retryWrites=true"
 const userModel = require("../models/user.model.js");
 mongoose.connect(URI, {
     autoReconnect: true,
@@ -28,38 +28,35 @@ async function saveUser(req, res, next) {
         instituicao: req.body.instituicao,
         telefone: req.body.telefone,
         endereco: req.body.endereco,
-        tipoSanguineo: req.body.tipoSanguineo
+        tipoSanguineo: req.body.tipoSanguineo,
+        verificado: req.body.verificado
     });
-    await user.save((err) => {
 
-        if (err) {
-            res.status(404).json({
-                message: "Erro ao salvar no banco!"
-            });
-        }
+    await user.save().then(() => {
         res.status(200).json({
             message: "Salvo com sucesso!"
         });
-        next();
-
-
+    }).catch(() => {
+        res.status(404).json({
+            message: "Erro ao salvar no banco!"
+        });
     });
-
-
-
+    next();
 }
 
 async function findUser(req, res, next) {
     await userModel.find({
-        _id: req.params.id
-    }, (err, people) => {
-        if (err) return res.status(404).json({
-            message: "Id não encontrado!"
+            _id: req.params.id
+        })
+        .then((people) => {
+            res.json(people);
+        })
+        .catch((err) => {
+            res.status(404).json({
+                message: "Id não encontrado!"
+            });
         });
-        res.json(people);
-        next();
-
-    })
+    next();
 }
 
 
@@ -73,48 +70,34 @@ async function allUsers(req, res, next) {
 }
 
 async function updateUser(req, res, next, ) {
-    function notNULL(nome, email, senha) {
-        if (nome != null) {
-            this.nome = nome;
-        }
-        if (email != null) {
-            this.email = email;
-        }
-        if (senha != null) {
-            this.senha = senha;
-        }
-    }
-
-    let user = new notNULL(req.body.nome, req.body.email, req.body.senha);
-    console.log(person);
     await userModel.findOneAndUpdate({
         _id: req.params.id
-    }, person, (err, people) => {
-        if (err) return console.log(err);
-    });
-    // .catch((err)=>{
-    //     console.log("errro")
-    // })
+    }, {
+        senha: req.params.senha
+    }).then(() =>
+        res.status(200).json({
+            message: "Senha atualizada com sucesso!"
+        })
+    ).catch((err) =>
+        res.status(404).json({
+            message: "id não encontrado"
+        })
+    )
     next();
 }
 
 async function deleteUser(req, res, next) {
-        await userModel.findOneAndDelete({
-                _id: req.params.id
-            }
-            // ,
-            // (err, people) => {
-            //     if (err) return res.status(404).json({
-            //         message: "Id não encontrado!"
-            //     });
-            //     res.status(200).json({
-            //         message: "deletado com sucesso"
-            //     });
-            // }
-            ).catch((e)=>{
-                console.log(e)
-            })
-
+    await userModel.findOneAndDelete({
+        _id: req.params.id
+    }).then(() => {
+        res.status(200).json({
+            message: "deletado com sucesso"
+        });
+    }).catch((err) => {
+        res.status(404).json({
+            message: "Id não encontrado!"
+        });
+    });
     next();
 }
 

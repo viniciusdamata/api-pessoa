@@ -17,7 +17,8 @@
     "tipoSanguineo":{
         "tipo":"o",
         "RH":"+"
-    }
+    },
+    "verificado":true
 
 
 }

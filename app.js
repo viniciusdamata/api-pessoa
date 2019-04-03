@@ -3,16 +3,17 @@ const bodyParser = require("body-parser");
 const userRoute = require("./routes/user.route");
 const cors_middle = require("./middleware/cors.middleware")
 const dotenv = require("dotenv");
+const logger = require("./middleware/logger");
 const app = express();
 dotenv.config();
 const PORT = process.env.PORT || 3000;
-
+app.use(logger);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.use(cors_middle)
+app.use(cors_middle);
 app.get("/", (req, res, next) => {
     res.end("Pagina inicial");
     next();

@@ -71,6 +71,10 @@ let userSchema = new mongoose.Schema({
     telefone:{
         type:Number,
         required:true
+    },
+    verificado:{
+        type:Boolean,
+        required:true
     }
     
 });
