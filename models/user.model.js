@@ -74,7 +74,7 @@ let userSchema = new mongoose.Schema({
     },
     verificado:{
         type:Boolean,
-        required:true
+        required:false
     }
     
 });

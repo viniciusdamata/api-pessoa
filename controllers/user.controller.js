@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
-const URI;
+const URI = "";
 const userModel = require("../models/user.model.js");
+const enviaEmail = require("../controllers/email.controller");
+
 mongoose.connect(URI, {
     autoReconnect: true,
     useNewUrlParser: true
@@ -29,13 +31,17 @@ async function saveUser(req, res, next) {
         telefone: req.body.telefone,
         endereco: req.body.endereco,
         tipoSanguineo: req.body.tipoSanguineo,
-        verificado: req.body.verificado
+        verificado: false
     });
+
+    //ENVIAR O EMAIL 
+    enviaEmail(req.body.email, user._id);
 
     await user.save().then(() => {
         res.status(200).json({
             message: "Salvo com sucesso!"
         });
+
     }).catch(() => {
         res.status(404).json({
             message: "Erro ao salvar no banco!"
@@ -44,10 +50,23 @@ async function saveUser(req, res, next) {
     next();
 }
 
+
+async function updateVerify(req, res, next) {
+    await userModel.findOneAndUpdate({_id:req.params.id},{
+        verificado: true
+    }).then(()=>{
+        res.status(200).json({message:"Email verificado com sucesso!"}); 
+    }
+    ).catch((err)=>{
+        res.status(404).json({message:"Id não encontrado!"});
+    });
+    next();    
+}
+
 async function findUser(req, res, next) {
     await userModel.find({
-            _id: req.params.id
-        })
+        _id: req.params.id
+    })
         .then((people) => {
             res.json(people);
         })
@@ -73,16 +92,16 @@ async function updateUser(req, res, next, ) {
     await userModel.findOneAndUpdate({
         _id: req.params.id
     }, {
-        senha: req.params.senha
-    }).then(() =>
-        res.status(200).json({
-            message: "Senha atualizada com sucesso!"
-        })
-    ).catch((err) =>
-        res.status(404).json({
-            message: "id não encontrado"
-        })
-    )
+            senha: req.params.senha
+        }).then(() =>
+            res.status(200).json({
+                message: "Senha atualizada com sucesso!"
+            })
+        ).catch((err) =>
+            res.status(404).json({
+                message: "id não encontrado"
+            })
+        )
     next();
 }
 
@@ -106,5 +125,6 @@ module.exports = {
     allUsers,
     findUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    updateVerify
 };
