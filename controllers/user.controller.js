@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const URI = "<mongoURI>"
+const URI = "<mongoURI>";
 const userModel = require("../models/user.model.js");
 const enviaEmail = require("../config/email.config");
 const uuidv1 = require("uuid/v1");
