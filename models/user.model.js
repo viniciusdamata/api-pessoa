@@ -24,8 +24,13 @@ let address = new mongoose.Schema({
     }
 })
 let userSchema = new mongoose.Schema({
-    ID:{
-        type:Number,
+    //O id é o cpf do usuário
+    uuid:{
+        type:String,
+        required:false
+    },
+    _id:{
+        type:String,
         required:true
     },
     nome: {
@@ -37,10 +42,6 @@ let userSchema = new mongoose.Schema({
         required: true
     },
     senha: {
-        type: String,
-        required: true
-    },
-    cpf: {
         type: String,
         required: true
     },
@@ -74,7 +75,7 @@ let userSchema = new mongoose.Schema({
     },
     verificado:{
         type:Boolean,
-        required:true
+        required:false
     }
     
 });
