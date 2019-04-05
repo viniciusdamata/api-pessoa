@@ -10,10 +10,5 @@ const router = express.Router();
    router.get("/:id", controller.findUser);
    router.patch("/:id", controller.updateUser);
    router.delete("/:id", controller.deleteUser);
-   
-
-
-
-
 
 module.exports = router;
