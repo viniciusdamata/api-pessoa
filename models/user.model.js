@@ -4,7 +4,7 @@ let bloodSchema = new mongoose.Schema({
         type:String,
         required: true
     },
-    RH:{
+    fator:{
         type:String,
         required:true
     }
