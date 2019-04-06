@@ -25,13 +25,13 @@ let address = new mongoose.Schema({
 })
 let userSchema = new mongoose.Schema({
     //O id é o cpf do usuário
-    uuid:{
-        type:String,
-        required:false
-    },
     _id:{
         type:String,
         required:true
+    },
+    uuid:{
+        type:String,
+        required:false
     },
     nome: {
         type: String,
@@ -49,11 +49,15 @@ let userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
+    orgexp:{
+        type:String,
+        required:true
+    },
     dataNasc:{
         type:Date,
         required:true
     },
-    tipoSanguineo:{
+    tipoSangue:{
         type:bloodSchema,
         required:true
     },
@@ -65,7 +69,7 @@ let userSchema = new mongoose.Schema({
         type:String,
         required:true
     },
-    instituicao:{
+    instDeEnsino:{
         type:String,
         required:true
     },

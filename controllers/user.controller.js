@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const URI = "<mongoURI>";
+const URI = "mongodb+srv://usuario:vinicius123@cluster0-4ixoe.mongodb.net/test?retryWrites=true"
 const userModel = require("../models/user.model.js");
 const enviaEmail = require("../config/email.config");
 const uuidv1 = require("uuid/v1");
@@ -18,6 +18,14 @@ db.on("error", (err) => {
 })
 
 async function saveUser(req, res, next) {
+    _id = req.body.cpf;
+    if( await userModel.findOne({_id}))
+         return res.status(404).json({message:"Usuario ja cadastrado!"});
+ 
+     email = req.body.email;    
+     if( await userModel.findOne({email}))
+         return res.status(404).json({message:"Email ja cadastrado!"});
+
     let uuid = uuidv1();
     let user = new userModel({
         //cpf é salvo como _id
@@ -27,12 +35,13 @@ async function saveUser(req, res, next) {
         email: req.body.email,
         senha: req.body.senha,
         rg: req.body.rg,
+        orgexp: req.body.orgexp,
         dataNasc: req.body.dataNasc,
         curso: req.body.curso,
-        instituicao: req.body.instituicao,
+        instDeEnsino: req.body.instDeEnsino,
         telefone: req.body.telefone,
         endereco: req.body.endereco,
-        tipoSanguineo: req.body.tipoSanguineo,
+        tipoSangue: req.body.tipoSangue,
         verificado: false
     });
 
@@ -50,7 +59,7 @@ async function saveUser(req, res, next) {
         res.status(404).json({
             message: "Erro ao salvar no banco! "
         });
-        throw err;
+        console.log(err);
     });
     next();
 }
@@ -71,7 +80,7 @@ async function updateVerify(req, res, next) {
         res.status(404).json({
             message: "Id não encontrado!"
         });
-        throw err;
+        console.log(err);
     });
     next();
 }
@@ -87,7 +96,7 @@ async function findUser(req, res, next) {
             res.status(404).json({
                 message: "Id não encontrado!"
             });
-            throw err;
+            console.log(err);
         });
     next();
 }
@@ -95,14 +104,14 @@ async function findUser(req, res, next) {
 
 async function allUsers(req, res, next) {
     await userModel.find({}, (err, people) => {
-        if (err) throw err;
+        if (err) return console.log(err);
         res.status(200).json(people);
         next();
     })
 
 }
 
-async function updatePassword(req, res, next, ) {
+async function updatePassword(req, res, next) {
     await userModel.findOneAndUpdate({
         _id: req.params.id
     }, {
@@ -117,40 +126,39 @@ async function updatePassword(req, res, next, ) {
         res.status(404).json({
             message: "id não encontrado"
         })
-        throw err;
+        console.log(err);
     })
     next();
 }
 
-async function updateAll(req, res, next, ) {
+async function updateAll(req, res, next) {
     let user = {
-        uuid: uuid,
         _id: req.body.cpf,
         nome: req.body.nome,
         email: req.body.email,
         senha: req.body.senha,
         rg: req.body.rg,
+        orgexp: req.body.orgexp,
         dataNasc: req.body.dataNasc,
         curso: req.body.curso,
-        instituicao: req.body.instituicao,
+        instDeEnsino: req.body.instDeEnsino,
         telefone: req.body.telefone,
         endereco: req.body.endereco,
-        tipoSanguineo: req.body.tipoSanguineo,
-        verificado: false
+        tipoSangue: req.body.tipoSangue,
     }
     await userModel.findOneAndUpdate({
         _id: req.params.id
     }, user)
     .then(() =>
         res.status(200).json({
-            message: "Senha atualizada com sucesso!"
+            message: "Dados atualizados com sucesso!"
         })
     )
     .catch((err) => {
         res.status(404).json({
             message: "id não encontrado"
         })
-        throw err;
+        console.log(err);
     })
     next();
 }
@@ -168,7 +176,7 @@ async function deleteUser(req, res, next) {
         res.status(404).json({
             message: "Id não encontrado!"
         });
-        throw err;
+        console.log(err);
     });
     next();
 }

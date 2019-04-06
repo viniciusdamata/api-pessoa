@@ -10,6 +10,6 @@ router.post("/", corsConfig, controller.saveUser);
 router.get("/:id", corsConfig, controller.findUser);
 router.patch("/:id", corsConfig, controller.updatePassword);
 router.delete("/:id", corsConfig, controller.deleteUser);
-router.put("/all/:id", corsConfig, controller.updateAll)
+router.put("/all/:id", corsConfig, controller.updateAll);
 
 module.exports = router;
