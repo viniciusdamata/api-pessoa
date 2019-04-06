@@ -2,7 +2,7 @@ const controller = require("../controllers/user.controller");
 const express = require("express");
 const cors = require("cors");
 const corsConfig = cors({
-   origin: "https://cadastroabe.netlify.com/"
+   origin: "https://cadastroabe.netlify.com/#"
 });
 const router = express.Router();
 router.get("/", corsConfig, controller.allUsers);
