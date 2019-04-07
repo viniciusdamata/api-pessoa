@@ -1,10 +1,10 @@
 function verificaEmail (userEmail, IdUsuario){
 
     console.log("Email Enviado = "+ userEmail);
-    const dotenv = require("dotenv").config();
+
     const nodemailer = require("nodemailer");
-    let $usuario = process.env.USUARIO;
-    let $senha = process.env.SENHA;
+    let $usuario = "<EMAIL>";
+    let $senha = "<SENHA>";
     let $destinatario = userEmail;
 
     let transporter = nodemailer.createTransport({
