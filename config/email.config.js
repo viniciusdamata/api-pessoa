@@ -3,8 +3,8 @@ function verificaEmail (userEmail, IdUsuario){
     console.log("Email Enviado = "+ userEmail);
 
     const nodemailer = require("nodemailer");
-    let $usuario = "<EMAIL>";
-    let $senha = "<SENHA>";
+    let $usuario = "abesistema@gmail.com";
+    let $senha = "@Y4fj82o8T+Po2!r";
     let $destinatario = userEmail;
 
     let transporter = nodemailer.createTransport({
