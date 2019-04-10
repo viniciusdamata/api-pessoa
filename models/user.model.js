@@ -1,4 +1,5 @@
-let mongoose = require("mongoose")
+const mongoose = require("mongoose")
+const bcrypt = require("bcrypt");
 let bloodSchema = new mongoose.Schema({    
     tipo:{
         type:String,
@@ -82,6 +83,12 @@ let userSchema = new mongoose.Schema({
         required:false
     }
     
+});
+
+userSchema.pre('save', async function(next){
+    const hash = await bcrypt.hash(this.senha, 10);
+    this.senha = hash;
+    next();
 });
 
 module.exports = mongoose.model("user", userSchema);

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const URI = "mongodb+srv://usuario:vinicius123@cluster0-4ixoe.mongodb.net/test?retryWrites=true";
+const URI = "mongodb+srv://usuario:vinicius123@cluster0-4ixoe.mongodb.net/test?retryWrites=true"
 const userModel = require("../models/user.model.js");
 const enviaEmail = require("../config/email.config");
 const uuidv1 = require("uuid/v1");
@@ -102,14 +102,14 @@ async function findUser(req, res, next) {
 }
 
 
-async function allUsers(req, res, next) {
-    await userModel.find({}, (err, people) => {
-        if (err) return console.log(err);
-        res.status(200).json(people);
-        next();
-    })
+// async function allUsers(req, res, next) {
+//     await userModel.find({}, (err, people) => {
+//         if (err) return console.log(err);
+//         res.status(200).json(people);
+//         next();
+//     })
 
-}
+// }
 
 async function updatePassword(req, res, next) {
     await userModel.findOneAndUpdate({
