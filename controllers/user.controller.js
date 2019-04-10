@@ -183,7 +183,6 @@ async function deleteUser(req, res, next) {
 
 module.exports = {
     saveUser,
-    allUsers,
     findUser,
     updatePassword,
     deleteUser,
