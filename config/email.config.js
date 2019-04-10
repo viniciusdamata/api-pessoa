@@ -19,7 +19,7 @@ function verificaEmail (userEmail, IdUsuario){
         from: $usuario,
         to: $destinatario,
         subject: "Verificação de Email, cadastro no sistema ABE",
-        text: `Clique no Link para Verificar: http://localhost:3000/verify/${IdUsuario}`
+        text: `Clique no Link para Verificar: https://api-pessoa-node.herokuapp.com/verify/${IdUsuario}`
     };
 
     transporter.sendMail(mailOptions, function(error, info){
